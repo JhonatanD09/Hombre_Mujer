@@ -4,7 +4,25 @@ package models;
 public class Perceptron {
 
 	public static double APRENDIZAJE = 0.25;
-	private int [][] dataSet = {{1,0,1,0,0,1,1},{0,0,1,0,0,1,1},{0,1,1,1,1,0,0}};
+	private int [][] dataSet = {{1,0,1,0,0,1,1},
+			{0,0,1,0,0,1,1},
+			{0,1,1,1,1,0,0},
+			{1,1,1,1,1,1,1},
+			{0,0,0,0,0,0,0},
+			{0,1,0,1,0,0,0},
+			{0,1,0,1,0,1,0},
+			{1,0,1,0,1,0,1},
+			{1,0,1,0,1,1,1},
+			{1,1,0,0,1,1,1},
+			{1,1,0,0,1,0,0},
+			{1,1,0,0,0,1,0},
+			{1,1,1,0,0,0,1},
+			{1,1,1,0,1,0,1},
+			{1,1,1,1,0,0,1},
+			{0,0,0,0,1,1,0},
+			{0,0,0,0,1,0,0},
+			{0,0,0,0,0,1,1},
+			{0,0,1,1,1,1,1}};
 	public double pesoX1, pesoX2,pesoX3,pesoX4,pesoX5,pesoX6, baias;
 	
 	public Perceptron() {
@@ -98,5 +116,15 @@ public class Perceptron {
 		Perceptron perceptron = new Perceptron();
 		perceptron.aprendizaje();
 		System.out.println(perceptron.textPerceptron(1, 1, 1, 0, 1, 0));
+		System.out.println(perceptron.textPerceptron(0, 0, 0, 0, 0, 0));
+		System.out.println(perceptron.textPerceptron(1, 1, 1, 1, 1, 1));
+		System.out.println(perceptron.textPerceptron(0, 1, 0, 1, 0, 1));
+		System.out.println(perceptron.textPerceptron(1, 0, 1, 0, 1, 0));
+		System.out.println(perceptron.textPerceptron(1, 1, 1, 0, 0, 0));
+		System.out.println(perceptron.textPerceptron(0, 0, 0, 1, 1, 1));
+		System.out.println(perceptron.textPerceptron(1, 1, 0, 1, 0, 0));
+		System.out.println(perceptron.textPerceptron(1, 1, 0, 1, 1, 0));
+		System.out.println(perceptron.textPerceptron(0, 0, 1, 1, 1, 1));
 	}
 }
+

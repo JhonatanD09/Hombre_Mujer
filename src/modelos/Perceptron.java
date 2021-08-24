@@ -1,30 +1,25 @@
-package models;
+package modelos;
 
-
+/**
+ * Clase encargada de crear un perceptron que aprenda a diferencia
+ * entre hombres y mujeres teniendo en cuenta los diferentes feachures
+ * @author jhona
+ *
+ */
 public class Perceptron {
 
 	public static double APRENDIZAJE = 0.25;
-	private int [][] dataSet = {{1,0,1,0,0,1,1},
-			{0,0,1,0,0,1,1},
-			{0,1,1,1,1,0,0},
-			{1,1,1,1,1,1,1},
-			{0,0,0,0,0,0,0},
-			{0,1,0,1,0,0,0},
-			{0,1,0,1,0,1,0},
-			{1,0,1,0,1,0,1},
-			{1,0,1,0,1,1,1},
-			{1,1,0,0,1,1,1},
-			{1,1,0,0,1,0,0},
-			{1,1,0,0,0,1,0},
-			{1,1,1,0,0,0,1},
-			{1,1,1,0,1,0,1},
-			{1,1,1,1,0,0,1},
-			{0,0,0,0,1,1,0},
-			{0,0,0,0,1,0,0},
-			{0,0,0,0,0,1,1},
-			{0,0,1,1,1,1,1}};
-	public double pesoX1, pesoX2,pesoX3,pesoX4,pesoX5,pesoX6, baias;
+	private int[][] dataSet = { { 1, 0, 1, 0, 0, 1, 1 }, { 0, 0, 1, 0, 0, 1, 1 }, { 0, 1, 1, 1, 1, 0, 0 },
+			{ 1, 1, 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, 1, 0, 0, 0 }, { 0, 1, 0, 1, 0, 1, 0 },
+			{ 1, 0, 1, 0, 1, 0, 1 }, { 1, 0, 1, 0, 1, 1, 1 }, { 1, 1, 0, 0, 1, 1, 1 }, { 1, 1, 0, 0, 1, 0, 0 },
+			{ 1, 1, 0, 0, 0, 1, 0 }, { 1, 1, 1, 0, 0, 0, 1 }, { 1, 1, 1, 0, 1, 0, 1 }, { 1, 1, 1, 1, 0, 0, 1 },
+			{ 0, 0, 0, 0, 1, 1, 0 }, { 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 1, 1 }, { 0, 0, 1, 1, 1, 1, 1 } };
+	private int[][] dataSetTest = { { 1, 0, 1, 1, 0, 1, 1 } };
+	public double pesoX1, pesoX2, pesoX3, pesoX4, pesoX5, pesoX6, baias;
 	
+/**
+ * Metodo constructor de la clase, inicializa las variables de los pesos y el baias
+ */
 	public Perceptron() {
 		this.pesoX1 = 0;
 		this.pesoX2 = 0;
@@ -35,6 +30,11 @@ public class Perceptron {
 		this.baias = 0;
 	}
 	
+/**
+ * Metodo para crear la funcion de activacion hardLimit
+ * @param value valor a convertir para activar
+ * @return el valor de la activacion
+ */
 	private int hardLimit(double value) {
 		if (value >= 0) {
 			return 1;
@@ -43,43 +43,63 @@ public class Perceptron {
 		}
 	}
 
-	public void aprendizaje() {
+	/**
+	 * Metodo en donde se inicia el aprendizaje del peceptron
+	 * @param iteratios  la cantidad de iteraciones que se desea realizae
+	 */
+	public void aprendizaje(int iteratios) {
 		System.out.println("Iniciando Aprendizaje....");
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < iteratios; i++) {
 			evaluarPesos();
 		}
 		System.out.println("Aprendizaje terminado");
-//		imprimirSalida();
 	}
 
-//	private void imprimirSalida() {
-//		for (int i = 0; i < dataSetNeurona1.length; i++) {
-//			int hardLimitN1 = hardLimit(dataSetNeurona1[i][0] * pesoN1X1 + dataSetNeurona1[i][1] * pesoN1X2 - baiasN1);
-//			int hardLimitN2 = hardLimit(dataSetNeurona2[i][0] * pesoN2X1 + dataSetNeurona2[i][1] * pesoN2X2 - baiasN2);
-//			
-//			if (i == 1) {
-//				System.out.println(hardLimitN2+" | "+hardLimitN1+" = "+resultado(hardLimitN2, hardLimitN1));
-//			} else {
-//				System.out.println(hardLimitN1+" | "+hardLimitN2+" = "+resultado(hardLimitN1, hardLimitN2));
-//			}
-//		}
-//	}
-
-//	private int resultado(int x1, int x2) {
-//		return x1==1&&x2==0||x1==0&&x2==1?1:0;
-//	}
-	
-	private double calculeYValue(int x1,int x2,int x3,int x4,int x5,int x6) {
-		return x1* pesoX1 + x2 * pesoX2 + x3 * pesoX3 + x4 * pesoX4 + x5 * pesoX5 + x6 * pesoX6 - baias;
+	/**
+	 * Evalua la funcion conseguida en el aprendizaje con unos datos de prueba
+	 * para calcular el porcentaje de efectividad del perceptron
+	 * @return porcentaje de efectividad del perceptron
+	 */
+	public double porcentajeAcierto() {
+		int count = 0;
+		for (int i = 0; i < dataSetTest.length; i++) {
+			int value = hardLimit(calculeYValue(dataSetTest[i][0], dataSetTest[i][1], dataSetTest[i][2],
+					dataSetTest[i][3], dataSetTest[i][5], dataSetTest[i][5]));
+			if (value == dataSetTest[i][6]) {
+				count++;
+			}
+		}
+		return (count / dataSetTest.length) * 100;
 	}
-	 
+
+	/**
+	 * Calcula el valor y evaluado en la ecuacion de aprendizaje
+	 * Los parametros son cada uno de los valores por los cuales
+	 * se multiplican los pesos
+	 * @param x1
+	 * @param x2
+	 * @param x3
+	 * @param x4
+	 * @param x5
+	 * @param x6
+	 * @return el valor de y evaluado en la ecuacion de aprendizaje
+	 */
+	private double calculeYValue(int x1, int x2, int x3, int x4, int x5, int x6) {
+		return x1 * pesoX1 + x2 * pesoX2 + x3 * pesoX3 + x4 * pesoX4 + x5 * pesoX5 + x6 * pesoX6 - baias;
+	}
+
+	/**
+	 * Recorre el data set y va calculando valores y de cada dato del data set de entrenamiento
+	 * y modifica los valores de los pesos y el baias si en algun momento se presenta un error
+	 * al evaluar el aprendizaje
+	 */
 	private void evaluarPesos() {
-		
-//		imprimirSalida();
-		for (int i = 0; i < dataSet.length; i++) {
-			
-			double y = calculeYValue(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][3], dataSet[i][4], dataSet[i][5]);
 
+		for (int i = 0; i < dataSet.length; i++) {
+
+			double y = calculeYValue(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][3], dataSet[i][4],
+					dataSet[i][5]);
+			
 			int hardLimit = hardLimit(y);
 
 			int error = dataSet[i][6] - hardLimit;
@@ -91,7 +111,6 @@ public class Perceptron {
 			double delta5 = APRENDIZAJE * error * dataSet[i][4];
 			double delta6 = APRENDIZAJE * error * dataSet[i][5];
 
-
 			pesoX1 = pesoX1 + delta1;
 			pesoX2 = pesoX2 + delta2;
 			pesoX3 = pesoX3 + delta3;
@@ -99,22 +118,45 @@ public class Perceptron {
 			pesoX5 = pesoX5 + delta5;
 			pesoX6 = pesoX6 + delta6;
 			baias = baias - (APRENDIZAJE * error);
-//			System.out.println("----------------------------------");
+			
+			textPerceptron(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][3], dataSet[i][4],
+					dataSet[i][5]);
 		}
 	}
 
-//	public void mostrarEcuaciones() {
-//		System.out.println("Ecuacion de la neurona 1: " + pesoN1X1 + " * X1 + " + pesoN1X2 + " * X2 - " + baiasN1);
-//		System.out.println("Ecuacion de la neurona 2: " + pesoN2X1 + " * X1 + " + pesoN2X2 + " * X2 - " + baiasN2);
-//	}
-	
-	public String textPerceptron(int x1,int x2,int x3,int x4,int x5,int x6) {
-		return (hardLimit(calculeYValue(x1, x2, x3, x4, x5, x6)) == 1) ? "Hombre":"Mujer";
+	/**
+	 * Se encarga de concatenar y mostar por consola la ecuacion de el perceptron
+	 */
+	public void mostrarEcuaciones() {
+		System.out.println("Ecuacion de la neurona 1: (" + pesoX1 + " * X1 + " + pesoX2 + " * X2 + " + pesoX3
+				+ " * X3 + " + pesoX4 + " * X4 + " + pesoX5 + " * X5 + " + pesoX6 + " * X6 - " + baias);
 	}
+
+	/**
+	 * Se encarga de evaluar si una serie de caracteristicas ingresadas
+	 * corresponden a un hombre o unna mujer, de acuerdo con el aprendizaje 
+	 * la funcion de activacion y la ecuacion del perceptron
+	 * En otras palabras es la neurona de salida ya formateada
+	 * 
+	 * Los parametros son las caracteristicas a evaluar
+	 * @param x1
+	 * @param x2
+	 * @param x3
+	 * @param x4
+	 * @param x5
+	 * @param x6
+	 * @return hombre o mujer, segun sea el caso
+	 */
+	public String textPerceptron(int x1, int x2, int x3, int x4, int x5, int x6) {
+		return (hardLimit(calculeYValue(x1, x2, x3, x4, x5, x6)) == 1) ? "Hombre" : "Mujer";
+	}
+
 	
 	public static void main(String[] args) {
 		Perceptron perceptron = new Perceptron();
-		perceptron.aprendizaje();
+		perceptron.aprendizaje(100);
+		perceptron.mostrarEcuaciones();
+		System.out.println("porcentaje de efectividad :" + perceptron.porcentajeAcierto() + "%");
 		System.out.println(perceptron.textPerceptron(1, 1, 1, 0, 1, 0));
 		System.out.println(perceptron.textPerceptron(0, 0, 0, 0, 0, 0));
 		System.out.println(perceptron.textPerceptron(1, 1, 1, 1, 1, 1));
@@ -127,4 +169,3 @@ public class Perceptron {
 		System.out.println(perceptron.textPerceptron(0, 0, 1, 1, 1, 1));
 	}
 }
-
